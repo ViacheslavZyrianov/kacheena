@@ -1,3 +1,3 @@
 <template>
-  <h1>Auth page</h1>
+  <fa-icon name="lemon" />
 </template>
