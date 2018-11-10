@@ -1,69 +1,62 @@
 <template>
-  <v-card
-    width="400"
-  >
-    <div class="auth__phone">
-      <v-text-field
-        placeholder="Phone"
-        v-model="phoneNumber"
-      />
-      <div id="recaptcha-container"></div>
+  <v-container class="page-auth">
+    <h1>Authorization</h1>
+    <phone-auth key="phone-auth"/>
+    <div class="social-btn__list">
       <v-btn
-        @click="onSendVerificationCode"
-        :disabled="isAuthorizeViaPhoneBtnDisabled"
+        v-for="socialBtn in socialBtnList"
+        :key="`${socialBtn.name}${socialBtn.color}`"
+        :color="socialBtn.color"
+        @click="onSetAuthStep(socialBtn.name)"
+        dark large block
       >
-        Send verification code
-      </v-btn>
-      <v-text-field
-        placeholder="Verification code"
-        v-model="verificationCode"
-      />
-      <v-btn
-        @click="onAuthorize"
-      >
-        Authorize
+        <fa-icon
+          :name="socialBtn.icon"
+          type="fab"
+        />
+        Authorize via {{ socialBtn.name }}
       </v-btn>
     </div>
-  </v-card>
+  </v-container>
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
+import phoneAuth from './phone'
 
-  // import { initRecaptcha } from '@/utils/recaptcha'
-
-  export default {
-    name: 'pageAuth',
-    data () {
-      return {
-        phoneNumber: '',
-        verificationCode: ''
-      }
-    },
-    methods: {
-      ...mapActions({
-        initRecaptcha: 'authPhone/initRecaptcha',
-        sendVerificationCode: 'authPhone/sendVerificationCode',
-        authorize: 'authPhone/authorize'
-      }),
-      onSendVerificationCode () {
-        this.sendVerificationCode(this.phoneNumber)
-      },
-      onAuthorize () {
-        this.authorize(this.verificationCode)
-      }
-    },
-    computed: {
-      isAuthorizeViaPhoneBtnDisabled () {
-        return false
-      }
-    },
-    mounted () {
-      this.initRecaptcha()
+export default {
+  name: 'pageAuth',
+  components: {
+    phoneAuth
+  },
+  data () {
+    return {
+      socialBtnList: [
+        {
+          name: 'Google+',
+          icon: 'google-plus-g',
+          color: '#dd3f3a'
+        },
+        {
+          name: 'Facebook',
+          icon: 'facebook-f',
+          color: '#3a529f'
+        }
+      ]
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>
-</style>
+  .page-auth {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 
+  .social-btn__list {
+    width: 100%;
+  }
+</style>
