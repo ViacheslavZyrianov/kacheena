@@ -40,11 +40,10 @@
         v-model="verificationCode"
       />
       <v-btn
+        v-if="isAuthorizeViaPhoneBtnVisible"
         color="#43c5a5"
-        dark large block
+        dark block
         @click="onAuthorizeViaPhone"
-        class="btn-auth"
-        :disabled="isAuthorizeViaPhoneBtnDisabled"
       >
         <fa-icon name="phone" />
         Authorize via phone
@@ -98,8 +97,8 @@
       isSendVerificationCodeBtnDisabled () {
         return !this.G_isRecaptchaVerified || !this.isPhoneNumberFilled
       },
-      isAuthorizeViaPhoneBtnDisabled () {
-        return this.verificationCode.length !== 6
+      isAuthorizeViaPhoneBtnVisible () {
+        return this.verificationCode.length === 6
       }
     },
     async created () {
@@ -123,6 +122,11 @@
   #recaptcha-container {
     height: 78px;
   }
+
+  .auth__phone {
+    min-height: 340px;
+  }
+
   .btn-list {
     width: 300px;
     display: flex;
@@ -130,4 +134,3 @@
     align-items: center;
   }
 </style>
-
