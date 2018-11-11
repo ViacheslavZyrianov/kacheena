@@ -1,9 +1,15 @@
 import firebase from '@/utils/firebase'
 
+import { isEmpty } from 'ramda'
+
 export const state = {
   phoneNumber: '',
   recaptchaVerifier: {},
   confirmationResult: {}
+}
+
+export const getters = {
+  G_isRecaptchaVerified: state => !isEmpty(state.recaptchaVerifier)
 }
 
 export const actions = {

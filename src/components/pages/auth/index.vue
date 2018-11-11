@@ -1,69 +1,79 @@
 <template>
-  <v-card
-    width="400"
-  >
-    <div class="auth__phone">
-      <v-text-field
-        placeholder="Phone"
-        v-model="phoneNumber"
-      />
-      <div id="recaptcha-container"></div>
-      <v-btn
-        @click="onSendVerificationCode"
-        :disabled="isAuthorizeViaPhoneBtnDisabled"
-      >
-        Send verification code
-      </v-btn>
-      <v-text-field
-        placeholder="Verification code"
-        v-model="verificationCode"
-      />
-      <v-btn
-        @click="onAuthorize"
-      >
-        Authorize
-      </v-btn>
+  <v-container class="page-auth">
+    <h1>Authorization</h1>
+    <phone-auth key="phone-auth"/>
+    <div class="social-auth">
+      <span>Or authorize via social network</span>
+      <div class="social-auth__btn-list">
+        <v-btn
+          v-for="socialBtn in socialBtnList"
+          :key="`${socialBtn.name}${socialBtn.color}`"
+          :color="socialBtn.color"
+          @click="onSetAuthStep(socialBtn.name)"
+          dark depressed
+          class="social-auth__btn"
+        >
+          <fa-icon
+            :name="socialBtn.icon"
+            type="fab"
+          />
+          {{ socialBtn.name }}
+        </v-btn>
+      </div>
     </div>
-  </v-card>
+  </v-container>
 </template>
 
 <script>
-  import { mapActions } from 'vuex'
+import phoneAuth from './phone'
 
-  // import { initRecaptcha } from '@/utils/recaptcha'
-
-  export default {
-    name: 'pageAuth',
-    data () {
-      return {
-        phoneNumber: '',
-        verificationCode: ''
-      }
-    },
-    methods: {
-      ...mapActions({
-        initRecaptcha: 'authPhone/initRecaptcha',
-        sendVerificationCode: 'authPhone/sendVerificationCode',
-        authorize: 'authPhone/authorize'
-      }),
-      onSendVerificationCode () {
-        this.sendVerificationCode(this.phoneNumber)
-      },
-      onAuthorize () {
-        this.authorize(this.verificationCode)
-      }
-    },
-    computed: {
-      isAuthorizeViaPhoneBtnDisabled () {
-        return false
-      }
-    },
-    mounted () {
-      this.initRecaptcha()
+export default {
+  name: 'pageAuth',
+  components: {
+    phoneAuth
+  },
+  data () {
+    return {
+      socialBtnList: [
+        {
+          icon: 'google-plus-g',
+          color: '#dd3f3a',
+          name: 'Google+'
+        },
+        {
+          icon: 'facebook-f',
+          color: '#3a529f',
+          name: 'Facebook'
+        }
+      ]
     }
   }
+}
 </script>
 
 <style lang="scss" scoped>
-</style>
+  .page-auth {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 
+  .social-auth {
+    width: 100%;
+    margin-top: auto 0 16px;
+
+    &__btn-list {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0 -8px;
+    }
+
+    &__btn {
+      flex-basis: calc(50% - 16px);
+    }
+  }
+</style>
