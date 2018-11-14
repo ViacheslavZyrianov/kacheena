@@ -17,7 +17,7 @@
             :name="socialBtn.icon"
             type="fab"
           />
-          {{ socialBtn.title }}
+          {{ socialBtn.label }}
         </v-btn>
       </div>
     </div>
@@ -41,7 +41,7 @@ export default {
           icon: 'google-plus-g',
           color: '#dd3f3a',
           name: 'google',
-          label: 'Google+'
+          label: 'Google'
         },
         {
           icon: 'facebook-f',
