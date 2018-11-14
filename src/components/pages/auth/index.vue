@@ -9,7 +9,7 @@
           v-for="socialBtn in socialBtnList"
           :key="`${socialBtn.name}${socialBtn.color}`"
           :color="socialBtn.color"
-          @click="onSetAuthStep(socialBtn.name)"
+          @click="authViaSocialNetwork(socialBtn.name)"
           dark depressed
           class="social-auth__btn"
         >
@@ -17,7 +17,7 @@
             :name="socialBtn.icon"
             type="fab"
           />
-          {{ socialBtn.name }}
+          {{ socialBtn.title }}
         </v-btn>
       </div>
     </div>
@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 import phoneAuth from './phone'
 
 export default {
@@ -38,14 +40,24 @@ export default {
         {
           icon: 'google-plus-g',
           color: '#dd3f3a',
-          name: 'Google+'
+          name: 'google',
+          label: 'Google+'
         },
         {
           icon: 'facebook-f',
           color: '#3a529f',
-          name: 'Facebook'
+          name: 'facebook',
+          label: 'Facebook'
         }
       ]
+    }
+  },
+  methods: {
+    ...mapActions({
+      googleAuth: 'authGoogle/authorize'
+    }),
+    authViaSocialNetwork (socialNetworkName) {
+      this[`${socialNetworkName}Auth`]()
     }
   }
 }
