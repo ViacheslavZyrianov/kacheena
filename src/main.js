@@ -8,7 +8,6 @@ import router from './router'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
 
-// import { VueOfflineStorage } from 'vue-offline'
 import faIcon from '@/components/shared/faIcon'
 
 Vue.use(Vuetify)

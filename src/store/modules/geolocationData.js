@@ -15,7 +15,9 @@ export const actions = {
       const { data: { country } } = await axios.get('http://ip-api.com/json')
       commit('setCountryName', country)
     } catch (err) {
-      throw err
+      this.dispatch('snackbar/showErrorMessage', {
+        message: 'Failed to fetch country name'
+      })
     }
   },
   async fetchCountryPhoneCode ({ dispatch, commit }) {
@@ -24,7 +26,9 @@ export const actions = {
       const { data } = await axios.get(`https://restcountries.eu/rest/v2/name/${state.countryName}`)
       commit('setCountryPhoneCode', data[0].callingCodes[0])
     } catch (err) {
-      throw err
+      this.dispatch('snackbar/showErrorMessage', {
+        message: 'Failed to fetch country phone code'
+      })
     }
   }
 }

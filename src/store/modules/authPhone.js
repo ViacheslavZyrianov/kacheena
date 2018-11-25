@@ -20,7 +20,9 @@ export const actions = {
         commit('setRecaptchaVerifier', recaptchaVerifier)
       },
       'expired-callback' () {
-        console.error('Captcha fucked up :(')
+        this.dispatch('snackbar/showErrorMessage', {
+          message: 'ReCaptcha callback expired'
+        })
       }
     })
     recaptchaVerifier.render()
@@ -30,16 +32,16 @@ export const actions = {
     firebase.auth().signInWithPhoneNumber(phoneNumber, state.recaptchaVerifier)
       .then(confirmationResult => {
         commit('setConfirmationResult', confirmationResult)
-      }).catch(error => {
-        throw error
+      }).catch(err => {
+        this.dispatch('snackbar/showErrorMessage', err)
       })
   },
   authorize ({ commit }, verificationCode) {
     state.confirmationResult.confirm(verificationCode)
       .then(data => {
         commit('setUser', data.user, { root: true })
-      }).catch(error => {
-        throw error
+      }).catch(err => {
+        this.dispatch('snackbar/showErrorMessage', err)
       })
   }
 }
