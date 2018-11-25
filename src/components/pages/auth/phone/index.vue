@@ -55,8 +55,6 @@
 <script>
   import { mapGetters, mapActions } from 'vuex'
 
-  // import { initRecaptcha } from '@/utils/recaptcha'
-
   export default {
     name: 'phoneAuth',
     data () {
@@ -73,7 +71,7 @@
         initRecaptcha: 'authPhone/initRecaptcha',
         sendVerificationCode: 'authPhone/sendVerificationCode',
         authorize: 'authPhone/authorize',
-        A_fetchCountryPhoneCode: 'geolocationData/A_fetchCountryPhoneCode'
+        fetchCountryPhoneCode: 'geolocationData/fetchCountryPhoneCode'
       }),
       onSendVerificationCode () {
         this.sendVerificationCode(`${this.phoneNumberCode}${this.phoneNumber}`)
@@ -88,14 +86,14 @@
     },
     computed: {
       ...mapGetters({
-        G_isRecaptchaVerified: 'authPhone/G_isRecaptchaVerified',
-        G_countryPhoneCode: 'geolocationData/G_countryPhoneCode'
+        getIsRecaptchaVerified: 'authPhone/getIsRecaptchaVerified',
+        getCountryPhoneCode: 'geolocationData/getCountryPhoneCode'
       }),
       isPhoneNumberFilled () {
         return this.phoneNumber.length === 9
       },
       isSendVerificationCodeBtnDisabled () {
-        return !this.G_isRecaptchaVerified || !this.isPhoneNumberFilled
+        return !this.getIsRecaptchaVerified || !this.isPhoneNumberFilled
       },
       isAuthorizeViaPhoneBtnVisible () {
         return this.verificationCode.length === 6
@@ -104,8 +102,8 @@
     async created () {
       this.isPhoneNumberCodeLoaded = true
       try {
-        await this.A_fetchCountryPhoneCode()
-        this.phoneNumberCode = `+${this.G_countryPhoneCode}`
+        await this.fetchCountryPhoneCode()
+        this.phoneNumberCode = `+${this.getCountryPhoneCode}`
       } catch (err) {
         throw err
       } finally {

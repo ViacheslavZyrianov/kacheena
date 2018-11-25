@@ -6,23 +6,23 @@ export const state = {
 }
 
 export const getters = {
-  G_countryPhoneCode: state => state.countryPhoneCode
+  getCountryPhoneCode: state => state.countryPhoneCode
 }
 
 export const actions = {
-  async A_fetchCountryName ({ commit }) {
+  async fetchCountryName ({ commit }) {
     try {
       const { data: { country } } = await axios.get('http://ip-api.com/json')
-      commit('M_countryName', country)
+      commit('setCountryName', country)
     } catch (err) {
       throw err
     }
   },
-  async A_fetchCountryPhoneCode ({ dispatch, commit }) {
+  async fetchCountryPhoneCode ({ dispatch, commit }) {
     try {
-      await dispatch('A_fetchCountryName')
+      await dispatch('fetchCountryName')
       const { data } = await axios.get(`https://restcountries.eu/rest/v2/name/${state.countryName}`)
-      commit('M_countryPhoneCode', data[0].callingCodes[0])
+      commit('setCountryPhoneCode', data[0].callingCodes[0])
     } catch (err) {
       throw err
     }
@@ -30,10 +30,10 @@ export const actions = {
 }
 
 export const mutations = {
-  M_countryName (state, payload) {
+  setCountryName (state, payload) {
     state.countryName = payload
   },
-  M_countryPhoneCode (state, payload) {
+  setCountryPhoneCode (state, payload) {
     state.countryPhoneCode = payload
   }
 }
