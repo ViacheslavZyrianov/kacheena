@@ -54,7 +54,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      googleAuth: 'authGoogle/authorize'
+      googleAuth: 'authGoogle/authorize',
+      facebookAuth: 'authFacebook/authorize'
     }),
     authViaSocialNetwork (socialNetworkName) {
       this[`${socialNetworkName}Auth`]()
