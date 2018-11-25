@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import modules from './modules'
 
+import { VueOfflineStorage } from 'vue-offline'
+
 Vue.use(Vuex)
 
 export const state = {
@@ -11,6 +13,7 @@ export const state = {
 const mutations = {
   setUser (state, payload) {
     state.user = payload
+    VueOfflineStorage.set('kacheena-userData', payload)
   }
 }
 
