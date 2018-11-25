@@ -7,13 +7,12 @@ import router from './router'
 
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
-import firebase from './utils/firebase'
 
+// import { VueOfflineStorage } from 'vue-offline'
 import faIcon from '@/components/shared/faIcon'
-Vue.component('fa-icon', faIcon)
 
 Vue.use(Vuetify)
-Vue.use(firebase)
+Vue.component('fa-icon', faIcon)
 
 Vue.config.productionTip = false
 
