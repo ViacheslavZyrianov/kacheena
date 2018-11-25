@@ -1,4 +1,5 @@
 import firebase from '@/utils/firebase'
+import router from '@/router'
 
 export const actions = {
   async authorize ({ commit }) {
@@ -15,6 +16,7 @@ export const actions = {
           phoneNumber: result.user.phoneNumber
         }
         commit('setUser', userData, { root: true })
+        router.push({name: 'Profile'})
       }).catch(err => {
         this.dispatch('snackbar/showErrorMessage', err)
       })

@@ -1,4 +1,5 @@
 import firebase from '@/utils/firebase'
+import router from '@/router'
 
 import { isEmpty } from 'ramda'
 
@@ -40,6 +41,7 @@ export const actions = {
     state.confirmationResult.confirm(verificationCode)
       .then(data => {
         commit('setUser', data.user, { root: true })
+        router.push({name: 'Profile'})
       }).catch(err => {
         this.dispatch('snackbar/showErrorMessage', err)
       })
