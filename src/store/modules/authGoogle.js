@@ -14,7 +14,6 @@ export const actions = {
           photoURL: result.user.photoURL,
           phoneNumber: result.user.phoneNumber
         }
-        localStorage.setItem('userData', JSON.stringify(userData))
         commit('setUser', userData, { root: true })
       }).catch(error => {
         throw error

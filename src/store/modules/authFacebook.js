@@ -11,7 +11,6 @@ export const actions = {
           email: result.additionalUserInfo.profile.email,
           photoURL: result.additionalUserInfo.profile.picture.data.url
         }
-        localStorage.setItem('userData', JSON.stringify(userData))
         commit('setUser', userData, { root: true })
       }).catch(error => {
         console.log('error', error)
