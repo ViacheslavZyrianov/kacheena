@@ -9,7 +9,7 @@ export const state = {
 }
 
 export const getters = {
-  G_isRecaptchaVerified: state => !isEmpty(state.recaptchaVerifier)
+  getIsRecaptchaVerified: state => !isEmpty(state.recaptchaVerifier)
 }
 
 export const actions = {
