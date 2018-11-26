@@ -16,3 +16,14 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  html,
+  body {
+      overscroll-behavior-y: contain;
+  }
+  .page {
+    padding: 8px;
+    min-height: 100vh;
+  }
+</style>
