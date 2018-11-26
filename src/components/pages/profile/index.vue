@@ -1,11 +1,11 @@
 <template>
   <section class="page page-profile">
-    <h1>Profile</h1>
-    <h2>Name: {{ getUser.displayName }}</h2>
     <img
       :src="getUser.photoURL"
       :alt="getUser.displayName"
+      class="profile__photo"
     >
+    <h1 class="profile__name">{{ getUser.displayName }}</h1>
   </section>
 </template>
 
@@ -22,9 +22,28 @@ export default {
 }
 </script>
 
-<style lang="scss">
-  html,
-  body {
-      overscroll-behavior-y: contain;
+<style lang="scss" scoped>
+.page-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.profile {
+  &__photo {
+    width: 60vw;
+    height: 60vw;
+    max-width: 400px;
+    max-height: 400px;
+    overflow: hidden;
+    border-radius: 50%;
+    object-fit: cover;
   }
+
+  &__name {
+    word-break: break-all;
+  }
+}
 </style>
+
