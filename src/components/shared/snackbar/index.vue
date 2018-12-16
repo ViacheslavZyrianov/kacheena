@@ -29,7 +29,8 @@ export default {
     }),
     snackbarMessage () {
       const messageName = this.getSnackbarMessage.name ? `${this.getSnackbarMessage.name}: ` : ''
-      return `${messageName}${this.getSnackbarMessage.message}`
+      if (typeof this.getSnackbarMessage === 'string') return this.getSnackbarMessage
+      if (typeof this.getSnackbarMessage === 'object') return `${messageName}${this.getSnackbarMessage.message}`
     }
   },
   methods: {
