@@ -30,7 +30,7 @@ import { mapActions } from 'vuex'
 import phoneAuth from './phone'
 
 export default {
-  name: 'pageAuth',
+  name: 'PageAuth',
   components: {
     phoneAuth
   },
