@@ -23,7 +23,6 @@ export default {
       overscroll-behavior-y: contain;
   }
   .page {
-    padding: 8px;
     min-height: 100vh;
   }
 </style>
