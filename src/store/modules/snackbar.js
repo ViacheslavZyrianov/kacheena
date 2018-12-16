@@ -20,11 +20,17 @@ export const actions = {
     commit('setIsSnackbarVisible', true)
     commit('setSnackbarMessage', snackbarMessage)
     commit('setSnackbarType', 'warning')
+    setTimeout(() => {
+      this.dispatch('closeSnackbar')
+    }, 3000)
   },
   showSuccessMessage ({ commit }, snackbarMessage) {
     commit('setIsSnackbarVisible', true)
     commit('setSnackbarMessage', snackbarMessage)
     commit('setSnackbarType', 'success')
+    setTimeout(() => {
+      this.dispatch('snackbar/closeSnackbar')
+    }, 3000)
   },
   showInfoMessage ({ commit }, snackbarMessage) {
     commit('setIsSnackbarVisible', true)
