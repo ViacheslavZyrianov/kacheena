@@ -5,7 +5,7 @@ import modules from './modules'
 Vue.use(Vuex)
 
 export const getters = {
-  getUser: state => JSON.parse(localStorage.getItem('kacheenaUserDataL')) || state.user
+  getUser: state => state.user
 }
 
 export const state = {
@@ -15,7 +15,15 @@ export const state = {
 const mutations = {
   setUser (state, payload) {
     state.user = payload
-    localStorage.setItem('kacheenaUserDataL', JSON.stringify(payload))
+  },
+  setPhotoUrl (state, payload) {
+    state.user.photoURL = payload
+  },
+  setDisplayName (state, payload) {
+    state.user.displayName = payload
+  },
+  setPhoneNumber (state, payload) {
+    state.user.phoneNumber = payload
   }
 }
 
