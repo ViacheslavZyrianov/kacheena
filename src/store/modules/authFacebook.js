@@ -10,7 +10,8 @@ export const actions = {
         const userData = {
           displayName: result.additionalUserInfo.profile.name,
           email: result.additionalUserInfo.profile.email,
-          photoURL: result.additionalUserInfo.profile.picture.data.url
+          photoURL: result.additionalUserInfo.profile.picture.data.url,
+          uid: result.additionalUserInfo.profile.uid
         }
         commit('setUser', userData, { root: true })
         router.push({name: 'Profile'})
