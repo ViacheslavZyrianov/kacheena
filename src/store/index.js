@@ -2,9 +2,11 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import modules from './modules'
 
-import { VueOfflineStorage } from 'vue-offline'
-
 Vue.use(Vuex)
+
+export const getters = {
+  getUser: state => state.user
+}
 
 export const state = {
   user: {}
@@ -13,12 +15,21 @@ export const state = {
 const mutations = {
   setUser (state, payload) {
     state.user = payload
-    VueOfflineStorage.set('kacheena-userData', payload)
+  },
+  setPhotoUrl (state, payload) {
+    state.user.photoURL = payload
+  },
+  setDisplayName (state, payload) {
+    state.user.displayName = payload
+  },
+  setPhoneNumber (state, payload) {
+    state.user.phoneNumber = payload
   }
 }
 
 const store = new Vuex.Store({
   state,
+  getters,
   mutations,
   modules
 })
