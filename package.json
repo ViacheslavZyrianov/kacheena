@@ -1,17 +1,15 @@
 {
   "name": "kacheena",
   "version": "1.0.0",
-  "description": "A Vue.js project",
-  "author": "ViacheslavZyrianov <zyrianov.viacheslav@gmail.com>",
   "private": true,
   "scripts": {
+    "build": "node build/build.js && workbox generateSW workbox-config.js",
+    "test": "npm run unit && npm run e2e",
+    "e2e": "node test/e2e/runner.js",
+    "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
     "dev": "node build/dev-server.js",
     "start": "node build/dev-server.js",
-    "build": "node build/build.js",
-    "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
-    "e2e": "node test/e2e/runner.js",
-    "test": "npm run unit && npm run e2e",
-    "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
+    "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.3.1",
@@ -26,6 +24,7 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "@vue/cli-plugin-pwa": "^3.2.0",
     "autoprefixer": "^7.1.5",
     "babel-core": "^6.26.0",
     "babel-eslint": "^8.0.1",
@@ -96,13 +95,15 @@
     "webpack-hot-middleware": "^2.19.1",
     "webpack-merge": "^4.1.0"
   },
-  "engines": {
-    "node": ">= 4.0.0",
-    "npm": ">= 3.0.0"
-  },
   "browserslist": [
     "> 1%",
     "last 2 versions",
     "not ie <= 8"
-  ]
+  ],
+  "description": "A Vue.js project",
+  "author": "ViacheslavZyrianov <zyrianov.viacheslav@gmail.com>",
+  "engines": {
+    "node": ">= 4.0.0",
+    "npm": ">= 3.0.0"
+  }
 }
