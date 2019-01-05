@@ -36,10 +36,8 @@ export const actions = {
   },
   sendVerificationCode ({ commit }, phoneNumber) {
     console.log('phoneNumber', phoneNumber)
-    commit('setPhoneNumber', phoneNumber)
     firebase.auth().signInWithPhoneNumber(phoneNumber, state.recaptchaVerifier)
       .then(confirmationResult => {
-        console.log('confirmationResult', confirmationResult)
         commit('setConfirmationResult', confirmationResult)
       }).catch(err => {
         this.dispatch('snackbar/showErrorMessage', err)
