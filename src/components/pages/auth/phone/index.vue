@@ -134,7 +134,7 @@
         phoneNumber: '',
         phoneNumberCode: null,
         verificationCode: '',
-        activeWindow: 1,
+        activeWindow: 0,
         isBackToFirstWindowDialogActive: false
       }
     },
