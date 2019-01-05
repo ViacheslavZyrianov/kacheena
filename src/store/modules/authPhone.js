@@ -10,11 +10,17 @@ export const state = {
 }
 
 export const getters = {
-  getIsRecaptchaVerified: state => !isEmpty(state.recaptchaVerifier)
+  getRecaptcha: state => state.recaptchaVerifier,
+  getIsRecaptchaVerified: state => !isEmpty(state.recaptchaVerifier),
+  getPhoneNumber: state => state.phoneNumber
 }
 
 export const actions = {
-  initRecaptcha ({ commit }) {
+  initRecaptcha ({ commit, getters, state }) {
+    if (getters.getIsRecaptchaVerified) {
+      state.recaptchaVerifier.clear()
+      state.recaptchaVerifier = {}
+    }
     const recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
       'size': 'small',
       'callback' () {
@@ -29,9 +35,11 @@ export const actions = {
     recaptchaVerifier.render()
   },
   sendVerificationCode ({ commit }, phoneNumber) {
+    console.log('phoneNumber', phoneNumber)
     commit('setPhoneNumber', phoneNumber)
     firebase.auth().signInWithPhoneNumber(phoneNumber, state.recaptchaVerifier)
       .then(confirmationResult => {
+        console.log('confirmationResult', confirmationResult)
         commit('setConfirmationResult', confirmationResult)
       }).catch(err => {
         this.dispatch('snackbar/showErrorMessage', err)
