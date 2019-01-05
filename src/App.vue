@@ -1,31 +1,44 @@
 <template>
   <v-app>
-  <v-navigation-drawer
-      v-model="isToolbarOpened"
-      app
-    >
-      <v-list dense>
-        <v-list-tile
-          v-for="nav in navList"
-          :key="`${nav.title}-${nav.route}`"
-          @click="onNavItemClick(nav.route)"
+    <template v-if="isMenuAvailable">
+      <v-navigation-drawer
+        v-model="isToolbarOpened"
+        app
+      >
+        <v-list dense>
+          <v-list-tile
+            v-for="nav in navList"
+            :key="`${nav.title}-${nav.route}`"
+            @click="onNavItemClick(nav.route)"
+          >
+            <v-list-tile-action>
+              <fa-icon
+                :name="nav.icon"
+                color="#808080"
+                align="center"
+              />
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>{{ nav.title }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-navigation-drawer>
+      <v-toolbar app>
+        <v-toolbar-side-icon @click="onToggleToolbar" />
+        <v-toolbar-title>{{ $route.name }}</v-toolbar-title>
+        <v-spacer />
+        <v-btn
+          slot="activator"
+          dark
+          icon
         >
-          <v-list-tile-action>
-            <fa-icon
-              :name="nav.icon"
-              color="#808080"
-              align="center"
-            />
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title>{{ nav.title }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
-    <v-toolbar app>
-      <v-toolbar-side-icon @click="onToggleToolbar" />
-    </v-toolbar>
+          <fa-icon
+            name="ellipsis-v"
+          />
+        </v-btn>
+      </v-toolbar>
+    </template>
     <v-content>
       <v-container fluid>
         <router-view/>
@@ -83,6 +96,11 @@ export default {
           icon: 'cog'
         }
       ]
+    }
+  },
+  computed: {
+    isMenuAvailable () {
+      return this.$route.name !== 'Auth'
     }
   },
   methods: {
