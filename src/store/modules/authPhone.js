@@ -35,7 +35,6 @@ export const actions = {
     recaptchaVerifier.render()
   },
   sendVerificationCode ({ commit }, phoneNumber) {
-    console.log('phoneNumber', phoneNumber)
     firebase.auth().signInWithPhoneNumber(phoneNumber, state.recaptchaVerifier)
       .then(confirmationResult => {
         commit('setConfirmationResult', confirmationResult)
