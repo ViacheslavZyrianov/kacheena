@@ -2,8 +2,7 @@
   <v-container fill-height>
     <v-layout column>
       <avatar
-        v-if="getUser.photoURL"
-        :src="getUser.photoURL"
+        :src="avatarUrl"
         alt="User avatar"
         class="profile__avatar"
       />
@@ -103,6 +102,9 @@ export default {
     ...mapGetters({
       getUser: 'getUser'
     }),
+    avatarUrl () {
+      return this.getUser.photoURL || ''
+    },
     avatarAlt () {
       return `${this.userDisplayName || 'User'}'s avatar`
     }
