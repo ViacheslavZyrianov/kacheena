@@ -20,13 +20,15 @@ export const actions = {
     } catch (err) { this.dispatch('snackbar/showErrorMessage', err) }
   },
   async fetchPhotoUrl ({ commit, rootGetters }) {
-    try {
-      const storageRef = firebase.storage().ref()
-      const { uid } = rootGetters.getUser
-      const avatarRef = storageRef.child(`avatar_${uid}.jpg`)
-      const photoUrl = await avatarRef.getDownloadURL()
-      commit('setPhotoUrl', photoUrl, { root: true })
-    } catch (err) { this.dispatch('snackbar/showErrorMessage', err) }
+    const storageRef = firebase.storage().ref()
+    const { uid } = rootGetters.getUser
+    const avatarRef = storageRef.child(`avatar_${uid}.jpg`)
+    if (uid && avatarRef) {
+      try {
+        const photoUrl = await avatarRef.getDownloadURL()
+        commit('setPhotoUrl', photoUrl, { root: true })
+      } catch (err) { throw err }
+    }
   },
   async saveDisplayName ({ commit }, displayName) {
     try {
