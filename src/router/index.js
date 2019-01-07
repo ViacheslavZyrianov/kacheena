@@ -10,12 +10,12 @@ export default new Router({
   routes: [
     {
       path: '/auth',
-      name: 'Auth',
+      name: 'auth',
       component: Auth
     },
     {
       path: '/profile',
-      name: 'Profile',
+      name: 'profile',
       component: Profile
     }
   ]

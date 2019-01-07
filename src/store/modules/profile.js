@@ -50,7 +50,7 @@ export const actions = {
     try {
       await firebase.auth().signOut()
       commit('setUser', {}, { root: true })
-      router.push({name: 'Auth'})
+      router.push({name: 'auth'})
     } catch (err) { this.dispatch('snackbar/showErrorMessage', err) }
   }
 }

@@ -15,7 +15,7 @@ export const actions = {
           uid: result.user.uid
         }
         commit('setUser', userData, { root: true })
-        router.push({name: 'Profile'})
+        router.push({name: 'profile'})
       }).catch(err => {
         this.dispatch('snackbar/showErrorMessage', err)
       })
