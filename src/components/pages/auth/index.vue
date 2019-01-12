@@ -1,12 +1,12 @@
 <template>
-  <v-layout column align-center justify-start>
-    <v-layout mt-4 mb-4>
+  <v-layout column align-center justify-center>
+    <v-flex shrink mb-4>
       <img
         src="/static/img/logo.svg"
         alt="Logo"
         class="logo"
       >
-    </v-layout>
+    </v-flex>
     <phone-auth key="phone-auth"/>
     <!-- <v-layout row wrap>
       <v-flex xs12 align-center>

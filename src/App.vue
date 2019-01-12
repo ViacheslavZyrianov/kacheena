@@ -5,42 +5,68 @@
         v-model="isToolbarOpened"
         app
       >
-        <v-list dense>
+        <v-list dense class="nav-list">
           <v-list-tile
-            v-for="nav in navList"
+            v-for="nav in navRouteList"
             :key="`${nav.title}-${nav.route}`"
             @click="onNavItemClick(nav.route)"
+            :style="{ order: nav.order }"
           >
             <v-list-tile-action>
               <fa-icon
                 :name="nav.icon"
-                color="#808080"
                 align="center"
               />
             </v-list-tile-action>
-            <v-list-tile-content>
-              <v-list-tile-title>{{ nav.title }}</v-list-tile-title>
-            </v-list-tile-content>
+            <v-list-tile-title>
+              {{ nav.title }}
+            </v-list-tile-title>
           </v-list-tile>
+          <v-list-group
+            v-for="navWithSub in navWithSubList"
+            :key="`${navWithSub.title}-${navWithSub.icon}`"
+            :style="{ order: navWithSub.order }"
+          >
+            <v-list-tile slot="activator">
+              <v-list-tile-action>
+                <fa-icon
+                  :name="navWithSub.icon"
+                  align="center"
+                />
+              </v-list-tile-action>
+              <v-list-tile-title>
+                {{ navWithSub.title }}
+              </v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile
+              v-for="navSub in navWithSub.list"
+              :key="`${navSub.title}-${navSub.route}`"
+              @click="onNavItemClick(navSub.route)"
+            >
+              <v-list-tile-action>
+                <fa-icon
+                  :name="navSub.icon"
+                  align="center"
+                />
+              </v-list-tile-action>
+              <v-list-tile-title>
+                {{ navSub.title }}
+              </v-list-tile-title>
+            </v-list-tile>
+          </v-list-group>
         </v-list>
       </v-navigation-drawer>
       <v-toolbar app>
         <v-toolbar-side-icon @click="onToggleToolbar" />
-        <v-toolbar-title>{{ $route.name }}</v-toolbar-title>
+        <v-toolbar-title>
+          {{ toolbarTitle }}
+        </v-toolbar-title>
         <v-spacer />
-        <v-btn
-          slot="activator"
-          dark
-          icon
-        >
-          <fa-icon
-            name="ellipsis-v"
-          />
-        </v-btn>
+        <menu-kebab />
       </v-toolbar>
     </template>
     <v-content>
-      <v-container fluid>
+      <v-container fill-height>
         <router-view/>
       </v-container>
     </v-content>
@@ -50,11 +76,13 @@
 
 <script>
 import snackbar from '@/components/shared/snackbar'
+import menuKebab from '@/components/shared/menuKebab'
 
 export default {
   name: 'App',
   components: {
-    snackbar
+    snackbar,
+    menuKebab
   },
   data () {
     return {
@@ -63,44 +91,73 @@ export default {
         {
           title: 'Home',
           route: 'home',
-          icon: 'home'
+          icon: 'home',
+          order: 1
         },
         {
           title: 'Profile',
           route: 'profile',
-          icon: 'user'
+          icon: 'user',
+          order: 2
         },
         {
           title: 'Trainings',
           route: 'trainings',
-          icon: 'dumbbell'
+          icon: 'dumbbell',
+          order: 3
         },
         {
           title: 'Training programs',
           route: 'training-programs',
-          icon: 'list-ul'
+          icon: 'list-ul',
+          order: 4
         },
         {
           title: 'Schedules',
-          route: 'schedules',
-          icon: 'calendar-alt'
+          icon: 'calendar-alt',
+          order: 5,
+          list: [
+            {
+              title: 'Trainings',
+              route: 'schedule-trainings'
+            },
+            {
+              title: 'Gym payment',
+              route: 'schedule-gym-payment'
+            },
+            {
+              title: 'Trainer payment',
+              route: 'schedule-trainer-payment'
+            }
+          ]
         },
         {
           title: 'Measurements',
           route: 'measurements',
-          icon: 'weight-hanging'
+          icon: 'weight-hanging',
+          order: 6
         },
         {
           title: 'Settings',
           route: 'settings',
-          icon: 'cog'
+          icon: 'cog',
+          order: 7
         }
       ]
     }
   },
   computed: {
     isMenuAvailable () {
-      return this.$route.name !== 'Auth'
+      return this.$route.name !== 'auth'
+    },
+    toolbarTitle () {
+      return `${this.$route.name[0].toUpperCase()}${this.$route.name.slice(1)}`
+    },
+    navRouteList () {
+      return this.navList.filter(navItem => 'route' in navItem)
+    },
+    navWithSubList () {
+      return this.navList.filter(navItem => 'list' in navItem)
     }
   },
   methods: {
@@ -122,5 +179,9 @@ export default {
   }
   .page {
     min-height: 100vh;
+  }
+  .nav-list {
+    display: flex;
+    flex-direction: column;
   }
 </style>

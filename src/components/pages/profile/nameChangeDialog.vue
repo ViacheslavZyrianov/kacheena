@@ -2,6 +2,7 @@
   <v-dialog
     persistent
     v-model="isDisplayNameDialogVisible"
+    max-width="300"
   >
     <v-card>
       <v-card-text>
@@ -11,7 +12,7 @@
         />
       </v-card-text>
       <v-card-actions>
-        <v-spacer></v-spacer>
+        <v-spacer />
         <v-btn
           color="secondary"
           flat

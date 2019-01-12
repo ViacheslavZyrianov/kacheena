@@ -4,15 +4,13 @@ import router from '@/router'
 import { isEmpty } from 'ramda'
 
 export const state = {
-  phoneNumber: '',
   recaptchaVerifier: {},
   confirmationResult: {}
 }
 
 export const getters = {
   getRecaptcha: state => state.recaptchaVerifier,
-  getIsRecaptchaVerified: state => !isEmpty(state.recaptchaVerifier),
-  getPhoneNumber: state => state.phoneNumber
+  getIsRecaptchaVerified: state => !isEmpty(state.recaptchaVerifier)
 }
 
 export const actions = {
@@ -45,7 +43,10 @@ export const actions = {
   authorize ({ commit }, verificationCode) {
     state.confirmationResult.confirm(verificationCode)
       .then(data => {
-        commit('setUser', data.user, { root: true })
+        commit('profile/setUID', data.user.uid, { root: true })
+        commit('profile/setAvatarUrl', data.user.avatarURL, { root: true })
+        commit('profile/setDisplayName', data.user.displayName, { root: true })
+        commit('profile/setPhoneNumber', data.user.phoneNumber, { root: true })
         router.push({name: 'profile'})
       }).catch(err => {
         this.dispatch('snackbar/showErrorMessage', err)

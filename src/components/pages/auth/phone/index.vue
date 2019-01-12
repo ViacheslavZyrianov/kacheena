@@ -1,5 +1,5 @@
 <template>
-  <v-layout column justify-center align-center>
+  <div>
     <v-window
       v-model="activeWindow"
       horizontal
@@ -121,7 +121,7 @@
         </v-layout>
       </v-card>
     </v-dialog>
-  </v-layout>
+  </div>
 </template>
 
 <script>

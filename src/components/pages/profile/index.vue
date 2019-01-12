@@ -1,79 +1,52 @@
 <template>
-  <v-container fill-height>
+  <v-layout>
     <v-layout column>
       <avatar
-        :src="avatarUrl"
+        :src="getProfile.avatarUrl"
         alt="User avatar"
         class="profile__avatar"
       />
-      <v-btn @click="onChangePhoto">Change photo</v-btn>
-      <v-layout
-        row align-center shrink
-        :justify-space-between="getUser.displayName"
-        :justify-center="!getUser.displayName"
-      >
-        <template v-if="getUser.displayName">
-          <h1 class="profile__name">{{ this.getUser.displayName }}</h1>
-          <v-btn
-            color="info"
-            @click="onShowChangeDisplayNameDialog"
-          >
-            Edit
-          </v-btn>
-        </template>
-        <v-btn
-          v-else
-          color="info"
-          @click="onShowChangeDisplayNameDialog"
+      <v-layout row justify-center align-center shrink>
+        <h1
+          v-if="this.getProfile.displayName"
+          class="profile__name"
         >
-          Add name
-        </v-btn>
+          {{ this.getProfile.displayName }}
+        </h1>
+        <v-subheader v-else>Add your name and surname</v-subheader>
       </v-layout>
       <v-layout row justify-space-between align-center shrink>
         <v-subheader>Phone</v-subheader>
-        <template v-if="getUser.phoneNumber">
-          <span>{{ getUser.phoneNumber }}</span>
-          <v-btn
-            color="info"
-            @click="onShowChangeProfilePhoneDialog"
-          >
-            Edit
-          </v-btn>
-        </template>
-        <v-btn
-          v-else
-          color="info"
-          @click="onShowChangeProfilePhoneDialog"
-        >
-          Add
-        </v-btn>
+        <span>{{ getProfile.phoneNumber }}</span>
       </v-layout>
-      <v-layout
-        justify-end shrink
-        mt-auto
-      >
-        <v-btn @click="signOut">
+      <v-layout justify-end shrink mt-auto>
+        <v-btn @click="onSignOut">
           Sign out
         </v-btn>
       </v-layout>
     </v-layout>
     <name-change-dialog
-      :name="getUser.displayName"
+      :name="getProfile.displayName"
       :isDisplayNameDialogVisible="isDisplayNameDialogVisible"
       @closeDialog="onCancelDialog"
     />
     <phone-change-dialog
-      :phone="getUser.phoneNumber"
+      :phone="phone"
       :isProfilePhoneDialogVisible="isProfilePhoneDialogVisible"
       @closeDialog="onCancelDialog"
     />
     <photo-change-dialog
-      v-if="getUser.photoURL"
-      :photoUrl="getUser.photoURL"
+      :avatarURL="getProfile.avatarURL"
       :isDisplayPhotoDialogVisible="isDisplayPhotoDialogVisible"
       @closeDialog="onCancelDialog"
     />
-  </v-container>
+    <confirm-dialog
+      :isOpened="isSignOutConfirmDialogVisible"
+      title="Sign out"
+      @reject="onSignOutConfirmDialogReject"
+      @confirm="onSignOutConfirmDialogConfirm"
+    />
+  </v-layout>
 </template>
 
 <script>
@@ -95,41 +68,65 @@ export default {
       userDisplayName: '',
       isDisplayNameDialogVisible: false,
       isProfilePhoneDialogVisible: false,
-      isDisplayPhotoDialogVisible: false
+      isDisplayPhotoDialogVisible: false,
+      isSignOutConfirmDialogVisible: false
     }
   },
   computed: {
     ...mapGetters({
-      getUser: 'getUser'
+      getProfile: 'profile/getProfile'
     }),
-    avatarUrl () {
-      return this.getUser.photoURL || ''
-    },
     avatarAlt () {
-      return `${this.userDisplayName || 'User'}'s avatar`
+      return `${this.userDisplayName || 'User'}`
+    },
+    phone () {
+      return this.getProfile.phoneNumber.slice(1)
     }
   },
   created () {
-    this.fetchPhotoUrl()
+    this.fetchAvatarURL()
+    this.$root.$emit('setKebabMenu', [
+      {
+        title: 'Edit photo',
+        click: this.changePhoto
+      },
+      {
+        title: 'Edit name',
+        click: this.showChangeDisplayNameDialog
+      }
+    ])
+  },
+  destroyed () {
+    this.$root.$emit('setKebabMenu', [])
   },
   methods: {
     ...mapActions({
       signOut: 'profile/signOut',
-      fetchPhotoUrl: 'profile/fetchPhotoUrl'
+      fetchAvatarURL: 'profile/fetchAvatarURL'
     }),
-    onShowChangeProfilePhoneDialog (profileItem) {
+    showChangeProfilePhoneDialog (profileItem) {
       this.isProfilePhoneDialogVisible = true
     },
-    onShowChangeDisplayNameDialog () {
+    showChangeDisplayNameDialog () {
       this.isDisplayNameDialogVisible = true
     },
-    onChangePhoto () {
+    changePhoto () {
       this.isDisplayPhotoDialogVisible = true
     },
     onCancelDialog () {
       this.isProfilePhoneDialogVisible = false
       this.isDisplayNameDialogVisible = false
       this.isDisplayPhotoDialogVisible = false
+    },
+    onSignOut () {
+      this.isSignOutConfirmDialogVisible = true
+    },
+    onSignOutConfirmDialogReject () {
+      this.isSignOutConfirmDialogVisible = false
+    },
+    onSignOutConfirmDialogConfirm () {
+      this.isSignOutConfirmDialogVisible = false
+      this.signOut()
     }
   }
 }
