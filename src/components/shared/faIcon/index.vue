@@ -1,7 +1,9 @@
 <template>
   <v-icon
-    :style="{color: color}"
-    left
+    :color="color"
+    :size="size"
+    :left="isLeft"
+    :right="isRight"
   >
     {{ iconName }}
   </v-icon>
@@ -19,7 +21,7 @@
         required: true
       },
       color: {
-        default: '#fff',
+        default: '',
         type: String
       },
       type: {
@@ -27,13 +29,23 @@
         type: String
       },
       side: {
-        default: 'left',
+        default: '',
         type: String
+      },
+      size: {
+        default: 16,
+        type: Number
       }
     },
     computed: {
       iconName () {
         return `fa ${this.type} fa-${this.name}`
+      },
+      isLeft () {
+        return this.side === 'left'
+      },
+      isRight () {
+        return this.side === 'right'
       }
     }
   }

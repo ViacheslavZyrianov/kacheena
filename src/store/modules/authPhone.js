@@ -4,17 +4,21 @@ import router from '@/router'
 import { isEmpty } from 'ramda'
 
 export const state = {
-  phoneNumber: '',
   recaptchaVerifier: {},
   confirmationResult: {}
 }
 
 export const getters = {
+  getRecaptcha: state => state.recaptchaVerifier,
   getIsRecaptchaVerified: state => !isEmpty(state.recaptchaVerifier)
 }
 
 export const actions = {
-  initRecaptcha ({ commit }) {
+  initRecaptcha ({ commit, getters, state }) {
+    if (getters.getIsRecaptchaVerified) {
+      state.recaptchaVerifier.clear()
+      state.recaptchaVerifier = {}
+    }
     const recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
       'size': 'small',
       'callback' () {
@@ -29,7 +33,6 @@ export const actions = {
     recaptchaVerifier.render()
   },
   sendVerificationCode ({ commit }, phoneNumber) {
-    commit('setPhoneNumber', phoneNumber)
     firebase.auth().signInWithPhoneNumber(phoneNumber, state.recaptchaVerifier)
       .then(confirmationResult => {
         commit('setConfirmationResult', confirmationResult)
@@ -40,8 +43,11 @@ export const actions = {
   authorize ({ commit }, verificationCode) {
     state.confirmationResult.confirm(verificationCode)
       .then(data => {
-        commit('setUser', data.user, { root: true })
-        router.push({name: 'Profile'})
+        commit('profile/setUID', data.user.uid, { root: true })
+        commit('profile/setAvatarUrl', data.user.avatarURL, { root: true })
+        commit('profile/setDisplayName', data.user.displayName, { root: true })
+        commit('profile/setPhoneNumber', data.user.phoneNumber, { root: true })
+        router.push({name: 'profile'})
       }).catch(err => {
         this.dispatch('snackbar/showErrorMessage', err)
       })

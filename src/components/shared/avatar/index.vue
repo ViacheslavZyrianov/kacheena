@@ -1,7 +1,7 @@
 <template>
   <div class="avatar">
     <img
-      :src="src"
+      :src="avatarSrc"
       :alt="alt"
       class="avatar__img"
     >
@@ -9,15 +9,12 @@
 </template>
 
 <script>
-import defaultAvatar from '@/assets/img/default-avatar.svg'
-
 export default {
   name: 'Avatar',
   props: {
     src: {
       type: String,
-      required: true,
-      default: defaultAvatar
+      required: true
     },
     alt: {
       type: String,
@@ -27,6 +24,11 @@ export default {
     isEditable: {
       type: Boolean,
       default: false
+    }
+  },
+  computed: {
+    avatarSrc () {
+      return this.src || '/static/img/default-avatar.svg'
     }
   }
 }

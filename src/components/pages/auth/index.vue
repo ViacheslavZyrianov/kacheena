@@ -1,17 +1,26 @@
 <template>
-  <v-container class="page-auth">
-    <h1>Authorization</h1>
+  <v-layout column align-center justify-center>
+    <v-flex shrink mb-4>
+      <img
+        src="/static/img/logo.svg"
+        alt="Logo"
+        class="logo"
+      >
+    </v-flex>
     <phone-auth key="phone-auth"/>
-    <div class="social-auth">
-      <span>Or authorize via social network</span>
-      <div class="social-auth__btn-list">
+    <!-- <v-layout row wrap>
+      <v-flex xs12 align-center>
+        <div>Or authorize via social network</div>
+      </v-flex>
+      <v-flex 
+        xs6
+        v-for="socialBtn in socialBtnList"
+        :key="`${socialBtn.name}${socialBtn.color}`"
+        >
         <v-btn
-          v-for="socialBtn in socialBtnList"
-          :key="`${socialBtn.name}${socialBtn.color}`"
           :color="socialBtn.color"
           @click="authViaSocialNetwork(socialBtn.name)"
           dark depressed
-          class="social-auth__btn"
         >
           <fa-icon
             :name="socialBtn.icon"
@@ -19,9 +28,9 @@
           />
           {{ socialBtn.label }}
         </v-btn>
-      </div>
-    </div>
-  </v-container>
+      </v-flex>
+    </v-layout> -->
+  </v-layout>
 </template>
 
 <script>
@@ -63,30 +72,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-  .page-auth {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .social-auth {
-    width: 100%;
-    margin-top: auto 0 16px;
-
-    &__btn-list {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: space-between;
-      margin: 0 -8px;
-    }
-
-    &__btn {
-      flex-basis: calc(50% - 16px);
-    }
-  }
-</style>

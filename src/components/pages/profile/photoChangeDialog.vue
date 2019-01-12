@@ -1,41 +1,45 @@
 <template>
   <v-dialog
-    persistent
     v-model="isDisplayPhotoDialogVisible"
+    persistent
+    max-width="300"
   >
-    <v-card>
-      <v-layout column align-center p-3>
-        <h1>Choose avatar</h1>
-        <croppa
-          v-model="croppa"
-          :accept="'image/*'"
-          :initial-image="photoUrl"
-          :prevent-white-space="true"
-          :show-loading="true"
-          :canvas-color="'#ffffff'"
-          :placeholder="'Touch to choose an image'"
-          :placeholder-font-size="16"
-          :remove-button-size="32"
-          @init="onCroppaInit"
-        />
-        <v-card-actions>
-          <v-btn
-            color="secondary"
-            flat
-            @click="onCancelDialog"
-          >
-            Cancel
-          </v-btn>
-          <v-btn
-            color="success"
-            :loading="isProfilePhotoSaveLoading"
-            :disabled="isProfilePhotoSaveLoading"
-            @click="onSaveProfilePhoto"
-          >
-            Save
-          </v-btn>
-        </v-card-actions>
-      </v-layout>
+    <v-card :max-width="300">
+      <v-container>
+        <v-layout column align-center>
+          <h3>Choose avatar</h3>
+          <croppa
+            v-model="croppa"
+            :accept="'image/*'"
+            :initial-image="avatarURL"
+            :prevent-white-space="true"
+            :show-loading="true"
+            :canvas-color="'#ffffff'"
+            :placeholder="'Touch to choose an image'"
+            :placeholder-font-size="16"
+            :remove-button-size="0"
+            @init="onCroppaInit"
+          />
+          <v-card-actions>
+            <v-spacer />
+            <v-btn
+              color="secondary"
+              flat
+              @click="onCancelDialog"
+            >
+              Cancel
+            </v-btn>
+            <v-btn
+              color="success"
+              :loading="isProfilePhotoSaveLoading"
+              :disabled="isProfilePhotoSaveLoading"
+              @click="onSaveProfilePhoto"
+            >
+              Save
+            </v-btn>
+          </v-card-actions>
+        </v-layout>
+      </v-container>
     </v-card>
   </v-dialog>
 </template>
@@ -46,7 +50,7 @@ import { mapActions } from 'vuex'
 export default {
   name: 'PhotoChangeDialog',
   props: {
-    photoUrl: {
+    avatarURL: {
       type: String,
       default: '',
       required: true
@@ -60,13 +64,13 @@ export default {
   data () {
     return {
       croppa: {},
-      photoUrlValue: '',
+      avatarURLValue: '',
       isProfilePhotoSaveLoading: false
     }
   },
   methods: {
     ...mapActions({
-      savePhotoBlob: 'profile/savePhotoBlob'
+      saveAvatarBlob: 'profile/saveAvatarBlob'
     }),
     onCroppaInit () {
       this.croppa.addClipPlugin((ctx, x, y, w, h) => {
@@ -78,17 +82,17 @@ export default {
     async onSaveProfilePhoto () {
       this.isProfilePhotoSaveLoading = true
       const blob = await this.croppa.promisedBlob()
-      await this.savePhotoBlob(blob)
+      await this.saveAvatarBlob(blob)
       this.isProfilePhotoSaveLoading = false
       this.$emit('closeDialog')
     },
     onCancelDialog () {
-      this.photoUrlValue = this.photoUrl
+      this.avatarURLValue = this.avatarURL
       this.$emit('closeDialog')
     }
   },
   created () {
-    this.photoUrlValue = this.photoUrl
+    this.avatarURLValue = this.avatarURL
   }
 }
 </script>
