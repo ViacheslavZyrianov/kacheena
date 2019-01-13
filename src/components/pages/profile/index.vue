@@ -2,7 +2,7 @@
   <v-layout>
     <v-layout column>
       <avatar
-        :src="getProfile.avatarUrl"
+        :src="avatarImg"
         alt="User avatar"
         class="profile__avatar"
       />
@@ -76,6 +76,9 @@ export default {
     ...mapGetters({
       getProfile: 'profile/getProfile'
     }),
+    avatarImg () {
+      return this.getProfile.avatarUrl ? this.getProfile.avatarUrl : 'default'
+    },
     avatarAlt () {
       return `${this.userDisplayName || 'User'}`
     },

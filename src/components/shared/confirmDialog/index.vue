@@ -2,8 +2,9 @@
   <v-dialog
     v-model="isOpened"
     persistent
+    :max-width="300"
   >
-    <v-card :max-width="300">
+    <v-card>
       <v-container>
         <v-layout mb-2>
           <h3>{{ title }}</h3>
