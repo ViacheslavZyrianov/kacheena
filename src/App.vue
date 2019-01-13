@@ -77,6 +77,7 @@
 <script>
 import snackbar from '@/components/shared/snackbar'
 import menuKebab from '@/components/shared/menuKebab'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'App',
@@ -146,6 +147,9 @@ export default {
       ]
     }
   },
+  created () {
+    this.setProfile()
+  },
   computed: {
     isMenuAvailable () {
       return this.$route.name !== 'auth'
@@ -161,6 +165,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      setProfile: 'profile/setProfile'
+    }),
     onToggleToolbar () {
       this.isToolbarOpened = !this.isToolbarOpened
     },
