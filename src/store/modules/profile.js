@@ -55,7 +55,7 @@ export const actions = {
       await firebase.auth().signOut()
       commit('SET_PROFILE', {})
       ls.remove('kacheena__user')
-      router.push({name: 'auth'})
+      router.push('auth')
     } catch (err) { this.dispatch('snackbar/showErrorMessage', err) }
   }
 }
