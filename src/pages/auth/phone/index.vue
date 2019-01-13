@@ -75,6 +75,7 @@
                 v-model="verificationCode"
                 type="tel"
                 mask="######"
+                @input="onVerificationCodeInput"
               />
             </v-flex>
             <v-layout>
@@ -90,6 +91,7 @@
               <v-flex>
                 <v-btn
                   :disabled="isAuthorizeViaPhoneBtnDisabled"
+                  :loading="isAuthorizeViaPhoneBtnLoading"
                   color="success"
                   block
                   @click="onAuthorizeViaPhone"
@@ -133,6 +135,8 @@
       return {
         phoneNumber: '',
         phoneNumberCode: null,
+        isAuthorizeViaPhoneBtnLoading: false,
+        isAuthorizeViaPhoneBtnDisabled: true,
         verificationCode: '',
         activeWindow: 0,
         isBackToFirstWindowDialogActive: false
@@ -149,8 +153,15 @@
         this.sendVerificationCode(`+${this.phoneNumberCode}${this.phoneNumber}`)
         this.activeWindow += 1
       },
-      onAuthorizeViaPhone () {
-        this.authorize(this.verificationCode)
+      async onAuthorizeViaPhone () {
+        this.isAuthorizeViaPhoneBtnDisabled = true
+        this.isAuthorizeViaPhoneBtnLoading = true
+        await this.authorize(this.verificationCode)
+        this.isAuthorizeViaPhoneBtnDisabled = false
+        this.isAuthorizeViaPhoneBtnLoading = false
+      },
+      onVerificationCodeInput () {
+        this.isAuthorizeViaPhoneBtnDisabled = this.verificationCode.length !== 6
       },
       onResetAuthorizeViaPhone () {
         this.onCloseBackToFirstWindowDialog()
@@ -171,9 +182,6 @@
         getIsRecaptchaVerified: 'authPhone/getIsRecaptchaVerified',
         getCountryPhoneCode: 'geolocationData/getCountryPhoneCode'
       }),
-      isAuthorizeViaPhoneBtnDisabled () {
-        return this.verificationCode.length !== 6
-      },
       isPhoneNumberCodeLoaded () {
         return this.phoneNumberCode !== null
       },
