@@ -41,21 +41,21 @@ export const actions = {
         this.dispatch('snackbar/showErrorMessage', err)
       })
   },
-  authorize ({ commit }, verificationCode) {
-    state.confirmationResult.confirm(verificationCode)
-      .then(data => {
-        const profileData = {
-          uid: data.user.uid,
-          avatarUrl: data.user.avatarUrl,
-          displayName: data.user.displayName,
-          phoneNumber: data.user.phoneNumber
-        }
-        commit('profile/SET_PROFILE', profileData, { root: true })
-        ls.set('kacheena__user', profileData)
-        router.push({name: 'profile'})
-      }).catch(err => {
-        this.dispatch('snackbar/showErrorMessage', err)
-      })
+  async authorize ({ commit }, verificationCode) {
+    try {
+      const data = await state.confirmationResult.confirm(verificationCode)
+      const profileData = {
+        uid: data.user.uid,
+        avatarUrl: data.user.photoURL,
+        displayName: data.user.displayName,
+        phoneNumber: data.user.phoneNumber
+      }
+      commit('profile/SET_PROFILE', profileData, { root: true })
+      ls.set('kacheena__user', profileData)
+      router.push('profile')
+    } catch (err) {
+      this.dispatch('snackbar/showErrorMessage', err)
+    }
   }
 }
 
