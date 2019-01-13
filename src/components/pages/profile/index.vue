@@ -149,7 +149,6 @@ export default {
     text-align: center;
     font-size: 32px;
     font-weight: 300;
-    word-break: break-all;
   }
 
   &__info-item {
