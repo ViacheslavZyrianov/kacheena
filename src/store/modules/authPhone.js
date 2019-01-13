@@ -23,7 +23,7 @@ export const actions = {
     const recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container', {
       'size': 'small',
       'callback' () {
-        commit('setRecaptchaVerifier', recaptchaVerifier)
+        commit('SET_RECAPTCHA_VERIFIER', recaptchaVerifier)
       },
       'expired-callback' () {
         this.dispatch('snackbar/showErrorMessage', {
@@ -36,7 +36,7 @@ export const actions = {
   sendVerificationCode ({ commit }, phoneNumber) {
     firebase.auth().signInWithPhoneNumber(phoneNumber, state.recaptchaVerifier)
       .then(confirmationResult => {
-        commit('setConfirmationResult', confirmationResult)
+        commit('SET_CONFIRMATION_RESULT', confirmationResult)
       }).catch(err => {
         this.dispatch('snackbar/showErrorMessage', err)
       })
@@ -50,7 +50,7 @@ export const actions = {
           displayName: data.user.displayName,
           phoneNumber: data.user.phoneNumber
         }
-        commit('profile/setProfile', profileData, { root: true })
+        commit('profile/SET_PROFILE', profileData, { root: true })
         ls.set('kacheena__user', profileData)
         router.push({name: 'profile'})
       }).catch(err => {
@@ -60,13 +60,10 @@ export const actions = {
 }
 
 export const mutations = {
-  setPhoneNumber (state, payload) {
-    state.phoneNumber = payload
-  },
-  setRecaptchaVerifier (state, payload) {
+  SET_RECAPTCHA_VERIFIER (state, payload) {
     state.recaptchaVerifier = payload
   },
-  setConfirmationResult (state, payload) {
+  SET_CONFIRMATION_RESULT (state, payload) {
     state.confirmationResult = payload
   }
 }

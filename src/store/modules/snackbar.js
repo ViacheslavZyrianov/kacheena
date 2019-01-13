@@ -12,44 +12,44 @@ export const getters = {
 
 export const actions = {
   showErrorMessage ({ commit }, snackbarMessage) {
-    commit('setIsSnackbarVisible', true)
-    commit('setSnackbarMessage', snackbarMessage)
-    commit('setSnackbarType', 'error')
+    commit('SET_IS_SNACKBAR_VISIBLE', true)
+    commit('SET_SNACKBAR_MESSAGE', snackbarMessage)
+    commit('SET_SNACKBAR_TYPE', 'error')
   },
   showWarningMessage ({ commit }, snackbarMessage) {
-    commit('setIsSnackbarVisible', true)
-    commit('setSnackbarMessage', snackbarMessage)
-    commit('setSnackbarType', 'warning')
+    commit('SET_IS_SNACKBAR_VISIBLE', true)
+    commit('SET_SNACKBAR_MESSAGE', snackbarMessage)
+    commit('SET_SNACKBAR_TYPE', 'warning')
     setTimeout(() => {
       this.dispatch('closeSnackbar')
     }, 3000)
   },
   showSuccessMessage ({ commit }, snackbarMessage) {
-    commit('setIsSnackbarVisible', true)
-    commit('setSnackbarMessage', snackbarMessage)
-    commit('setSnackbarType', 'success')
+    commit('SET_IS_SNACKBAR_VISIBLE', true)
+    commit('SET_SNACKBAR_MESSAGE', snackbarMessage)
+    commit('SET_SNACKBAR_TYPE', 'success')
     setTimeout(() => {
       this.dispatch('snackbar/closeSnackbar')
     }, 3000)
   },
   showInfoMessage ({ commit }, snackbarMessage) {
-    commit('setIsSnackbarVisible', true)
-    commit('setSnackbarMessage', snackbarMessage)
-    commit('setSnackbarType', 'info')
+    commit('SET_IS_SNACKBAR_VISIBLE', true)
+    commit('SET_SNACKBAR_MESSAGE', snackbarMessage)
+    commit('SET_SNACKBAR_TYPE', 'info')
   },
   closeSnackbar ({ commit }) {
-    commit('setIsSnackbarVisible', false)
+    commit('SET_IS_SNACKBAR_VISIBLE', false)
   }
 }
 
 export const mutations = {
-  setIsSnackbarVisible (state, payload) {
+  SET_IS_SNACKBAR_VISIBLE (state, payload) {
     state.isSnackbarVisible = payload
   },
-  setSnackbarMessage (state, payload) {
+  SET_SNACKBAR_MESSAGE (state, payload) {
     state.snackbarMessage = payload
   },
-  setSnackbarType (state, payload) {
+  SET_SNACKBAR_TYPE (state, payload) {
     state.snackbarType = payload
   }
 }

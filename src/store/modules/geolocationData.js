@@ -13,7 +13,7 @@ export const actions = {
     try {
       const countryName = navigator.language.split('-')[1]
       const { data } = await axios.get(`https://restcountries.eu/rest/v2/alpha/${countryName}`)
-      commit('setCountryPhoneCode', data.callingCodes[0])
+      commit('SET_COUNTRY_PHONE_CODE', data.callingCodes[0])
     } catch (err) {
       this.dispatch('snackbar/showErrorMessage', {
         message: 'Failed to fetch country phone code'
@@ -23,10 +23,7 @@ export const actions = {
 }
 
 export const mutations = {
-  setCountryName (state, payload) {
-    state.countryName = payload
-  },
-  setCountryPhoneCode (state, payload) {
+  SET_COUNTRY_PHONE_CODE (state, payload) {
     state.countryPhoneCode = payload
   }
 }

@@ -18,7 +18,7 @@ export const actions = {
       const avatarRef = storageRef.child(`avatar_${getters.getUID}.jpg`)
       const puttingBlobResult = await avatarRef.put(blob)
       const avatarUrl = await puttingBlobResult.ref.getDownloadURL()
-      commit('setAvatarUrl', avatarUrl)
+      commit('SET_AVATAR_URL', avatarUrl)
       this.dispatch('snackbar/showSuccessMessage', 'New avatar saved!')
     } catch (err) { this.dispatch('snackbar/showErrorMessage', err) }
   },
@@ -27,20 +27,20 @@ export const actions = {
     const avatarRef = storageRef.child(`avatar_${getters.getUID}.jpg`)
     try {
       const avatarUrl = await avatarRef.getDownloadURL()
-      commit('setAvatarUrl', avatarUrl)
+      commit('SET_AVATAR_URL', avatarUrl)
     } catch (err) { throw err }
   },
   async saveDisplayName ({ commit }, displayName) {
     try {
       await firebase.auth().currentUser.updateProfile({ displayName })
-      commit('setDisplayName', displayName)
+      commit('SET_DISPLAY_NAME', displayName)
       this.dispatch('snackbar/showSuccessMessage', 'Display name saved!')
     } catch (err) { this.dispatch('snackbar/showErrorMessage', err) }
   },
   async savePhoneNumber ({ commit }, phoneCredential) {
     try {
       await firebase.auth().currentUser.updatePhoneNumber(`+${phoneCredential}`)
-      commit('setPhoneNumber', phoneCredential)
+      commit('SET_PHONE_NUMBER', phoneCredential)
       this.dispatch('snackbar/showSuccessMessage', 'Display name saved!')
     } catch (err) {
       this.dispatch('snackbar/showErrorMessage', err)
@@ -48,12 +48,12 @@ export const actions = {
   },
   setProfile ({ commit }) {
     const profileFromLocalStorage = ls.get('kacheena__user')
-    if (profileFromLocalStorage) commit('setProfile', profileFromLocalStorage)
+    if (profileFromLocalStorage) commit('SET_PROFILE', profileFromLocalStorage)
   },
   async signOut ({ commit }) {
     try {
       await firebase.auth().signOut()
-      commit('setProfile', {})
+      commit('SET_PROFILE', {})
       ls.remove('kacheena__user')
       router.push({name: 'auth'})
     } catch (err) { this.dispatch('snackbar/showErrorMessage', err) }
@@ -61,19 +61,16 @@ export const actions = {
 }
 
 export const mutations = {
-  setProfile (state, payload) {
+  SET_PROFILE (state, payload) {
     state.profile = payload
   },
-  setUID (state, payload) {
-    state.profile.UID = payload
-  },
-  setAvatarUrl (state, payload) {
+  SET_AVATAR_URL (state, payload) {
     state.profile.avatarUrl = payload
   },
-  setDisplayName (state, payload) {
+  SET_DISPLAY_NAME (state, payload) {
     state.profile.displayName = payload
   },
-  setPhoneNumber (state, payload) {
+  SET_PHONE_NUMBER (state, payload) {
     state.profile.phoneNumber = payload
   }
 }
