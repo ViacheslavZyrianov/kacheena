@@ -28,7 +28,7 @@ export default {
   },
   computed: {
     avatarSrc () {
-      return this.src || '/static/img/default-avatar.svg'
+      return this.src === 'default' ? '/static/img/default-avatar.svg' : this.src
     }
   }
 }
