@@ -75,8 +75,8 @@
 </template>
 
 <script>
-import snackbar from '@/components/shared/snackbar'
-import menuKebab from '@/components/shared/menuKebab'
+import snackbar from '@/components/snackbar'
+import menuKebab from '@/components/menuKebab'
 import { mapActions } from 'vuex'
 
 export default {
