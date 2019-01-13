@@ -1,6 +1,6 @@
-// import axios from 'axios'
 import firebase from 'firebase'
 import router from '@/router'
+import ls from '@/utils/ls'
 
 export const state = {
   profile: {}
@@ -46,10 +46,15 @@ export const actions = {
       this.dispatch('snackbar/showErrorMessage', err)
     }
   },
+  setProfile ({ commit }) {
+    const profileFromLocalStorage = ls.get('kacheena__user')
+    if (profileFromLocalStorage) commit('setProfile', profileFromLocalStorage)
+  },
   async signOut ({ commit }) {
     try {
       await firebase.auth().signOut()
       commit('setProfile', {})
+      ls.remove('kacheena__user')
       router.push({name: 'auth'})
     } catch (err) { this.dispatch('snackbar/showErrorMessage', err) }
   }
@@ -57,7 +62,7 @@ export const actions = {
 
 export const mutations = {
   setProfile (state, payload) {
-    state.profile.avatarUrl = payload
+    state.profile = payload
   },
   setUID (state, payload) {
     state.profile.UID = payload
