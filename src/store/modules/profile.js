@@ -66,12 +66,15 @@ export const mutations = {
   },
   SET_AVATAR_URL (state, payload) {
     state.profile.avatarUrl = payload
+    ls.update('kacheena__user', 'avatarUrl', payload)
   },
   SET_DISPLAY_NAME (state, payload) {
     state.profile.displayName = payload
+    ls.update('kacheena__user', 'displayName', payload)
   },
   SET_PHONE_NUMBER (state, payload) {
     state.profile.phoneNumber = payload
+    ls.update('kacheena__user', 'phoneNumber', payload)
   }
 }
 
