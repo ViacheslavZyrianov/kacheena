@@ -31,8 +31,9 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  if (!ls.get('kacheena__user')) next()
-  router.replace('auth')
+  if (!ls.get('kacheena__user')) router.replace('auth')
+  else if (ls.get('kacheena__user') && to.name === 'auth') router.replace('profile')
+  else next()
 })
 
 export default router
