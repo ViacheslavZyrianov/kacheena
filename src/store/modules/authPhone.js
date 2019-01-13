@@ -2,6 +2,7 @@ import firebase from '@/utils/firebase'
 import router from '@/router'
 
 import { isEmpty } from 'ramda'
+import ls from '@/utils/ls'
 
 export const state = {
   recaptchaVerifier: {},
@@ -43,10 +44,14 @@ export const actions = {
   authorize ({ commit }, verificationCode) {
     state.confirmationResult.confirm(verificationCode)
       .then(data => {
-        commit('profile/setUID', data.user.uid, { root: true })
-        commit('profile/setAvatarUrl', data.user.avatarURL, { root: true })
-        commit('profile/setDisplayName', data.user.displayName, { root: true })
-        commit('profile/setPhoneNumber', data.user.phoneNumber, { root: true })
+        const profileData = {
+          uid: data.user.uid,
+          avatarUrl: data.user.avatarUrl,
+          displayName: data.user.displayName,
+          phoneNumber: data.user.phoneNumber
+        }
+        commit('profile/setProfile', profileData, { root: true })
+        ls.set('kacheena__user', profileData)
         router.push({name: 'profile'})
       }).catch(err => {
         this.dispatch('snackbar/showErrorMessage', err)
